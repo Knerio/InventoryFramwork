@@ -6,8 +6,7 @@ import de.derioo.inventoryframework.interfaces.PageSystem;
 public class PageSystemImpl implements PageSystem {
 
     private int page;
-
-    private int maxPage;
+    private final int maxPage;
     private final InventoryContents contents;
 
     public PageSystemImpl(int maxPage, InventoryContents contents){
@@ -54,10 +53,6 @@ public class PageSystemImpl implements PageSystem {
         return currentPage() == maxPage;
     }
 
-    @Override
-    public void setMaxPages(int pages) {
-        this.maxPage = pages;
-    }
 
     public void onPageChange(){
         contents.update();

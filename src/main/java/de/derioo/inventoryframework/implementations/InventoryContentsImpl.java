@@ -18,11 +18,16 @@ public class InventoryContentsImpl implements InventoryContents {
     private PageSystem pageSystem;
     private final InventoryBuilder builder;
 
+    public InventoryContentsImpl(int size, InventoryBuilder builder, int maxPages) {
+        contents = new SmartItem[size];
+        this.builder = builder;
+        pageSystem = new PageSystemImpl(maxPages, this);
+    }
+
     public InventoryContentsImpl(int size, InventoryBuilder builder) {
         contents = new SmartItem[size];
         this.builder = builder;
     }
-
 
 
     @Override
@@ -33,12 +38,6 @@ public class InventoryContentsImpl implements InventoryContents {
     @Override
     public ItemStack[] getRawItems() {
         return (ItemStack[]) Arrays.stream(contents).map(SmartItem::getItem).toArray();
-    }
-
-    @Override
-    public void setMaxPages(int pages) {
-        if (pageSystem == null) pageSystem = new PageSystemImpl(1, builder.getContents());
-        pageSystem.setMaxPages(pages);
     }
 
     @Override
@@ -59,7 +58,7 @@ public class InventoryContentsImpl implements InventoryContents {
 
     @Override
     public void set(int index, ItemStack item) {
-        set(index, SmartItem.get(item));
+        this.set(index, SmartItem.get(item));
     }
 
 
@@ -74,6 +73,31 @@ public class InventoryContentsImpl implements InventoryContents {
     }
 
     @Override
+    public void fillBorders(Material material) {
+        fillBorders(material, " ");
+    }
+
+    @Override
+    public void fillBorders(Material material, String name) {
+        for (int i = 0; i < 10; i++) {
+            this.set(i, SmartItem.get(new ItemBuilder(material).setName(name).toItemStack()));
+        }
+        int size = getItems().length;
+        if (size > 9){
+            for (int i = size-9; i < size; i++) {
+                this.set(i, SmartItem.get(new ItemBuilder(material).setName(name).toItemStack()));
+            }
+        }
+        int rows = (size + 1) / 9;
+
+        for(int i = 9; i < rows * 9 - 1; i += 9) {
+            if (i == 0)continue;
+            this.set(i, SmartItem.get(new ItemBuilder(material).setName(name).toItemStack()));
+            this.set(i+8, SmartItem.get(new ItemBuilder(material).setName(name).toItemStack()));
+        }
+    }
+
+    @Override
     public void fill(SmartItem item) {
         for (int i = 0; i < contents.length; i++) {
             contents[i] = item.clone();
@@ -82,7 +106,7 @@ public class InventoryContentsImpl implements InventoryContents {
 
     @Override
     public PageSystem getPageSystem() {
-        if (pageSystem == null) pageSystem = new PageSystemImpl(1, builder.getContents());
+        if (pageSystem == null) throw new IllegalStateException("PageSystem is null because this.setup want correctly");
         return pageSystem;
     }
 

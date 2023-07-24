@@ -2,10 +2,6 @@ package de.derioo.inventoryframework.interfaces;
 
 public interface PageSystem {
 
-    /**
-     * Gets
-     * @return
-     */
     int currentPage();
 
     void nextPage();
@@ -18,6 +14,4 @@ public interface PageSystem {
 
     boolean isLast();
 
-
-    void setMaxPages(int pages);
 }
