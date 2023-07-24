@@ -79,21 +79,26 @@ public class InventoryContentsImpl implements InventoryContents {
 
     @Override
     public void fillBorders(Material material, String name) {
+        fillBorders(SmartItem.get(new ItemBuilder(material).setName(name).toItemStack()));
+    }
+
+    @Override
+    public void fillBorders(SmartItem item) {
         for (int i = 0; i < 10; i++) {
-            this.set(i, SmartItem.get(new ItemBuilder(material).setName(name).toItemStack()));
+            this.set(i, item);
         }
         int size = getItems().length;
         if (size > 9){
             for (int i = size-9; i < size; i++) {
-                this.set(i, SmartItem.get(new ItemBuilder(material).setName(name).toItemStack()));
+                this.set(i, item);
             }
         }
         int rows = (size + 1) / 9;
 
         for(int i = 9; i < rows * 9 - 1; i += 9) {
             if (i == 0)continue;
-            this.set(i, SmartItem.get(new ItemBuilder(material).setName(name).toItemStack()));
-            this.set(i+8, SmartItem.get(new ItemBuilder(material).setName(name).toItemStack()));
+            this.set(i, item);
+            this.set(i+8, item);
         }
     }
 

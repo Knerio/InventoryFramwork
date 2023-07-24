@@ -9,6 +9,7 @@ import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.function.BiConsumer;
+import java.util.function.Consumer;
 
 public class SmartItem {
 
@@ -17,8 +18,8 @@ public class SmartItem {
     private ItemStack item;
 
     @Getter
-    private BiConsumer<InventoryClickEvent, SmartItem> consumer;
-    
+    private final BiConsumer<InventoryClickEvent, SmartItem> consumer;
+
 
     public SmartItem(ItemStack item, BiConsumer<InventoryClickEvent, SmartItem> consumer) {
         this.item = item;

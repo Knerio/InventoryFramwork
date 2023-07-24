@@ -27,7 +27,7 @@ public class InventoryFramework {
      * @param listener the listener
      */
     public static void initListener(Listener listener) {
-        if (plugin == null) throw new FrameworkNotConfiguredException();
+        if (plugin == null) throw new FrameworkNotConfiguredException("FrameWork is not configured use new InventoryFrameWork(plugin)");
 
         Bukkit.getPluginManager().registerEvents(listener, plugin);
     }
