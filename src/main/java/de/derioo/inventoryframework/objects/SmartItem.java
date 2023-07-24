@@ -76,7 +76,10 @@ public class SmartItem {
     }
 
 
-
+    /**
+     * Clones to smartItem to a new Instance
+     * @return the cloned item
+     */
     public SmartItem clone(){
         return new SmartItem(item.clone(), consumer);
     }
