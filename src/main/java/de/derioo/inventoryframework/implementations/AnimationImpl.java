@@ -17,6 +17,7 @@ public class AnimationImpl implements Animation {
     private final InventoryBuilder builder;
     private final Plugin plugin;
     private AnimationType type;
+    private boolean cycle;
 
     private boolean hideAfterAnimation = false;
 
@@ -34,6 +35,12 @@ public class AnimationImpl implements Animation {
     @Override
     public Animation hideAfterAnimation() {
         hideAfterAnimation = true;
+        return this;
+    }
+
+    @Override
+    public Animation cycleInfinite() {
+        cycle = true;
         return this;
     }
 
@@ -75,7 +82,7 @@ public class AnimationImpl implements Animation {
                     System.out.println(item.getStepCount());
                     if (item.getStepCount() > item.getAnimationLength()) continue;
                     item.setCurrentSlot(nextSlot);
-                    item.setStepCount(item.getStepCount()+1);
+                    item.setStepCount(item.getStepCount() + 1);
                     newContents[item.getCurrentSlot()] = item.getItem();
                 }
 
@@ -97,7 +104,17 @@ public class AnimationImpl implements Animation {
                                 System.out.println(item.getCurrentSlot());
                             }
                             contents.update();
+                            if (cycle) {
+                                //Resets data from the items to start a new Animation
+                                removeDataFromItems(items);
+                                start(delayBetweenItems, unit, items);
+                            }
                         }, delayBetweenItemsInTicks);
+                    if (!hideAfterAnimation && cycle){
+                        //Resets data from the items to start a new Animation
+                        removeDataFromItems(items);
+                        start(delayBetweenItems, unit, items);
+                    }
                     contents.update();
                 }
 
@@ -109,9 +126,14 @@ public class AnimationImpl implements Animation {
         }.runTaskTimer(plugin, delayBetweenItemsInTicks, delayBetweenItemsInTicks);
 
 
-
         return this;
+    }
 
+    private void removeDataFromItems(AnimationItem... items){
+        Arrays.stream(items).forEach(item -> {
+            item.setStepCount(0);
+            item.setCurrentSlot(item.getStartSlot());
+        });
     }
 
     @Override

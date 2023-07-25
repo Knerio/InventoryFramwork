@@ -23,6 +23,12 @@ public interface Animation {
      */
     Animation hideAfterAnimation();
 
+    /**
+     * Cycles the animation forever
+     * @return the animation
+     */
+    Animation cycleInfinite();
+
 
     /**
      * Starts the animation

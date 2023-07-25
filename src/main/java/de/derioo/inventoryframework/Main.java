@@ -48,7 +48,7 @@ public final class Main extends JavaPlugin {
 
                                         List<Animation.AnimationItem> list = new ArrayList<>();
                                         Random random = new Random();
-                                        for (int i = 0; i < 100; i++) {
+                                        for (int i = 0; i < 20; i++) {
                                             Animation.AnimationItem item = new Animation.AnimationItem(
                                                     SmartItem.get(new ItemBuilder(Material.values()[random.nextInt(Material.values().length - 1)]).toItemStack()),
                                                     3, 52);
@@ -57,6 +57,7 @@ public final class Main extends JavaPlugin {
 
                                         InventoryFramework.animation(contents.getBuilder())
                                                 .prepare(Animation.AnimationType.CROSS_RIGHT_UP_LEFT_DOWN)
+                                                .cycleInfinite()
                                                 .hideAfterAnimation()
                                                 .start(140, Animation.TimeUnit.MILLISECONDS, list);
 
