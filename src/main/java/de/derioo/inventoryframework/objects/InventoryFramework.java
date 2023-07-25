@@ -2,6 +2,8 @@ package de.derioo.inventoryframework.objects;
 
 import de.derioo.inventoryframework.exeptions.FrameworkNotConfiguredException;
 import de.derioo.inventoryframework.implementations.InventoryBuilderImpl;
+import de.derioo.inventoryframework.interfaces.Animation;
+import de.derioo.inventoryframework.interfaces.AnimationImpl;
 import de.derioo.inventoryframework.interfaces.InventoryBuilder;
 import lombok.Getter;
 import org.bukkit.Bukkit;
@@ -35,6 +37,10 @@ public class InventoryFramework {
 
     public static InventoryBuilder builder(){
         return new InventoryBuilderImpl();
+    }
+
+    public static Animation animation(InventoryBuilder builder){
+        return new AnimationImpl(builder, plugin);
     }
 
 }

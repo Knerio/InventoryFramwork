@@ -96,6 +96,15 @@ public class InventoryBuilderImpl implements InventoryBuilder, Listener {
         return player;
     }
 
+    @Override
+    public void update() {
+        for (int i = 0; i < inventory.getSize(); i++) {
+            SmartItem item = contents.getItem(i);
+            if (item == null) continue;
+            inventory.setItem(i, item.getItem());
+        }
+    }
+
     public InventoryBuilder clone() {
         if (maxPage == -1) return InventoryFramework.builder()
                 .setup(title, size)
@@ -129,11 +138,7 @@ public class InventoryBuilderImpl implements InventoryBuilder, Listener {
             i++;
         }
 
-        for (i = 0; i < inventory.getSize(); i++) {
-            SmartItem item = contents.getItem(i);
-            if (item == null) continue;
-            inventory.setItem(i, item.getItem());
-        }
+        update();
 
     }
 }

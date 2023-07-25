@@ -18,15 +18,18 @@ public class InventoryContentsImpl implements InventoryContents {
     private PageSystem pageSystem;
     private final InventoryBuilder builder;
 
+    private final int size;
     public InventoryContentsImpl(int size, InventoryBuilder builder, int maxPages) {
         contents = new SmartItem[size];
         this.builder = builder;
         pageSystem = new PageSystemImpl(maxPages, this);
+        this.size = size;
     }
 
     public InventoryContentsImpl(int size, InventoryBuilder builder) {
         contents = new SmartItem[size];
         this.builder = builder;
+        this.size = size;
     }
 
 
@@ -37,7 +40,15 @@ public class InventoryContentsImpl implements InventoryContents {
 
     @Override
     public ItemStack[] getRawItems() {
-        return (ItemStack[]) Arrays.stream(contents).map(SmartItem::getItem).toArray();
+        ItemStack[] array = new ItemStack[size];
+        for (int i = 0; i < contents.length; i++) {
+            if (contents[i] == null){
+                array[i] = new ItemBuilder(Material.AIR).toItemStack();
+                continue;
+            }
+            array[i] = contents[i].getItem();
+        }
+        return array;
     }
 
     @Override
@@ -123,7 +134,7 @@ public class InventoryContentsImpl implements InventoryContents {
     @Override
     public void update() {
         if (pageSystem == null) pageSystem = new PageSystemImpl(1, builder.getContents());
-        getBuilder().getProvider().init(getBuilder().getPlayer(), getBuilder().getContents());
+        getBuilder().update();
     }
 
 

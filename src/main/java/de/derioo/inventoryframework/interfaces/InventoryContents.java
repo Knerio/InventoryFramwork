@@ -99,7 +99,7 @@ public interface InventoryContents {
     InventoryBuilder getBuilder();
 
     /**
-     * Updates the inventory
+     * Used after for e.g. set
      */
     void update();
 

@@ -67,4 +67,6 @@ public interface InventoryBuilder {
      * @return the player
      */
     Player getPlayer();
+
+    void update();
 }
