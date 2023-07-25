@@ -1,5 +1,8 @@
-package de.derioo.inventoryframework.interfaces;
+package de.derioo.inventoryframework.implementations;
 
+import de.derioo.inventoryframework.interfaces.Animation;
+import de.derioo.inventoryframework.interfaces.InventoryBuilder;
+import de.derioo.inventoryframework.interfaces.InventoryContents;
 import de.derioo.inventoryframework.objects.SmartItem;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
