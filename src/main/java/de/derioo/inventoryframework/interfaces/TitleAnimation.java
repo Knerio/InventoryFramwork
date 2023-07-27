@@ -1,5 +1,8 @@
 package de.derioo.inventoryframework.interfaces;
 
+/**
+ * Used to create title animations
+ */
 public interface TitleAnimation {
 
 
@@ -22,6 +25,9 @@ public interface TitleAnimation {
     TitleAnimation start(long delayBetweenTextChanges, InventoryAnimation.TimeUnit unit, String... inputs);
 
 
+    /**
+     * Different animation types
+     */
     enum AnimationType {
 
         /**

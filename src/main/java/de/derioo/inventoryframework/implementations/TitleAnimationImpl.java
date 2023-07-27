@@ -18,13 +18,20 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
+/**
+ * Implementation class of the title animation interface
+ */
 public class TitleAnimationImpl implements TitleAnimation {
 
     private final InventoryBuilder builder;
     private final Plugin plugin;
     private AnimationType type;
 
-
+    /**
+     * Used to get an instance of the class
+     * @param builder the builder
+     * @param plugin the main plugin
+     */
     public TitleAnimationImpl(InventoryBuilder builder, Plugin plugin) {
         this.builder = builder;
         this.plugin = plugin;

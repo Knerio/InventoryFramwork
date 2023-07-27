@@ -2,6 +2,9 @@ package de.derioo.inventoryframework.interfaces;
 
 import org.checkerframework.checker.index.qual.NonNegative;
 
+/**
+ * An Interface for managing pages
+ */
 public interface PageSystem {
 
     /**

@@ -12,6 +12,9 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.*;
 
+/**
+ * An implementation of the InventoryAnimation interface for creating item animations in inventories.
+ */
 public class InventoryAnimationImpl implements InventoryAnimation {
 
     private final InventoryBuilder builder;
@@ -21,6 +24,12 @@ public class InventoryAnimationImpl implements InventoryAnimation {
 
     private boolean hideAfterAnimation = false;
 
+    /**
+     * Creates a new InventoryAnimationImpl with the specified InventoryBuilder and Plugin.
+     *
+     * @param builder The InventoryBuilder to animate.
+     * @param plugin  The Plugin instance for scheduling tasks.
+     */
     public InventoryAnimationImpl(InventoryBuilder builder, Plugin plugin) {
         this.builder = builder;
         this.plugin = plugin;
@@ -50,17 +59,16 @@ public class InventoryAnimationImpl implements InventoryAnimation {
 
         InventoryContents contents = builder.getContents();
 
-
         final Map<Integer, SmartItem> map = new HashMap<>();
 
         for (int k = 0; k < contents.getItems().length; k++) {
-
             if (contents.getItem(k) == null) {
                 map.put(k, SmartItem.get(new ItemStack(Material.AIR)));
                 continue;
             }
             map.put(k, contents.getItem(k));
         }
+
         new BukkitRunnable() {
             int displayedItems = 0;
 
@@ -68,13 +76,13 @@ public class InventoryAnimationImpl implements InventoryAnimation {
             public void run() {
                 SmartItem[] newContents = contents.getItems();
 
-                //first load the map in the array
+                // First load the map into the array
                 for (AnimationItem item : items) {
                     newContents[item.getStartSlot()] = map.get(item.getStartSlot());
                     newContents[item.getCurrentSlot()] = map.get(item.getCurrentSlot());
                 }
 
-                //Renders the next slots
+                // Render the next slots
                 for (int i = 0; i < displayedItems; i++) {
                     AnimationItem item = items[i];
                     int nextSlot = getNextSlotByType(item.getCurrentSlot(), type, displayedItems + 1);
@@ -84,13 +92,13 @@ public class InventoryAnimationImpl implements InventoryAnimation {
                     newContents[item.getCurrentSlot()] = item.getItem();
                 }
 
-                //Checks if the next rendered item can or has to be rendered
+                // Check if the next item can or has to be rendered
                 if (displayedItems < items.length) {
                     newContents[items[displayedItems].getStartSlot()] = items[displayedItems].getItem();
                     displayedItems++;
                 }
 
-                //Checks if the runnable has to be cancelled
+                // Check if the runnable has to be canceled
                 AnimationItem lastItem = items[items.length - 1];
                 if (lastItem.getStepCount() == lastItem.getAnimationLength() + 1) {
                     this.cancel();
@@ -102,13 +110,13 @@ public class InventoryAnimationImpl implements InventoryAnimation {
                             }
                             contents.update();
                             if (cycle) {
-                                //Resets data from the items to start a new Animation
+                                // Reset data from the items to start a new Animation
                                 removeDataFromItems(items);
                                 start(delayBetweenItems, unit, items);
                             }
                         }, delayBetweenItemsInTicks);
-                    if (!hideAfterAnimation && cycle){
-                        //Resets data from the items to start a new Animation
+                    if (!hideAfterAnimation && cycle) {
+                        // Reset data from the items to start a new Animation
                         removeDataFromItems(items);
                         start(delayBetweenItems, unit, items);
                     }
@@ -117,16 +125,13 @@ public class InventoryAnimationImpl implements InventoryAnimation {
 
                 contents.setItems(newContents);
                 contents.update();
-
-
             }
         }.runTaskTimer(plugin, delayBetweenItemsInTicks, delayBetweenItemsInTicks);
-
 
         return this;
     }
 
-    private void removeDataFromItems(AnimationItem... items){
+    private void removeDataFromItems(AnimationItem... items) {
         Arrays.stream(items).forEach(item -> {
             item.setStepCount(0);
             item.setCurrentSlot(item.getStartSlot());
@@ -136,15 +141,12 @@ public class InventoryAnimationImpl implements InventoryAnimation {
     @Override
     public InventoryAnimation start(long delayBetweenItems, TimeUnit unit, List<AnimationItem> items) {
         AnimationItem[] array = new AnimationItem[items.size()];
-
         for (int i = 0; i < items.size(); i++) {
             array[i] = items.get(i);
         }
-
         start(delayBetweenItems, unit, array);
         return this;
     }
-
 
     private long getTicksFromTimeUnit(long time, TimeUnit unit) {
         long ticks;
@@ -157,7 +159,6 @@ public class InventoryAnimationImpl implements InventoryAnimation {
         }
         return ticks;
     }
-
 
     private int getNextSlotByType(int slot, AnimationType type, int cycle) {
         switch (type) {
@@ -183,7 +184,5 @@ public class InventoryAnimationImpl implements InventoryAnimation {
                 return -1;
             }
         }
-
     }
-
 }

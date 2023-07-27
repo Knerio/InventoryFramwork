@@ -4,6 +4,9 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.checkerframework.checker.index.qual.NonNegative;
 
+/**
+ * An interface for the InventoryBuilder
+ */
 public interface InventoryBuilder {
 
     /**

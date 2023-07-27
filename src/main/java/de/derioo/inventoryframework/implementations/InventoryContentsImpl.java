@@ -11,6 +11,9 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.Arrays;
 
+/**
+ * An implementation of the InventoryContents interface
+ */
 public class InventoryContentsImpl implements InventoryContents {
 
 
@@ -19,6 +22,13 @@ public class InventoryContentsImpl implements InventoryContents {
     private final InventoryBuilder builder;
 
     private final int size;
+
+    /**
+     * Initialises the implementation
+     * @param size the size of the contents
+     * @param builder the builder
+     * @param maxPages the max pages
+     */
     public InventoryContentsImpl(int size, InventoryBuilder builder, int maxPages) {
         contents = new SmartItem[size];
         this.builder = builder;
@@ -26,6 +36,11 @@ public class InventoryContentsImpl implements InventoryContents {
         this.size = size;
     }
 
+    /**
+     * Initialises the implementation
+     * @param size the size of the contents
+     * @param builder the builder
+     */
     public InventoryContentsImpl(int size, InventoryBuilder builder) {
         contents = new SmartItem[size];
         this.builder = builder;

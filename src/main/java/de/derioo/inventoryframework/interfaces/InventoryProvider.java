@@ -4,6 +4,9 @@ import de.derioo.inventoryframework.implementations.InventoryContentsImpl;
 import de.derioo.inventoryframework.objects.SmartItem;
 import org.bukkit.entity.Player;
 
+/**
+ * Provides the inventory contents
+ */
 public interface InventoryProvider {
 
     /**

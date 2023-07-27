@@ -12,6 +12,9 @@ import org.bukkit.Bukkit;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.Plugin;
 
+/**
+ * A class to init the Framework and start animations and inventories
+ */
 public class InventoryFramework {
 
     @Getter
@@ -37,12 +40,16 @@ public class InventoryFramework {
     }
 
 
+    /**
+     * Gets the builder
+     * @return a fresh new builder
+     */
     public static InventoryBuilder builder(){
         return new InventoryBuilderImpl();
     }
 
     /**
-     * Used to create a inventory animation
+     * Used to create an inventory animation
      * @param builder the builder of the animation
      * @return the Animation to use
      */

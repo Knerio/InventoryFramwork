@@ -12,6 +12,9 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.Inventory;
 
+/**
+ * An implementation of the InventoryBuilder interface for building inventories and handling inventory interactions.
+ */
 public class InventoryBuilderImpl implements InventoryBuilder, Listener {
 
     private String title = "NOT_CONFIGURED";
@@ -128,6 +131,10 @@ public class InventoryBuilderImpl implements InventoryBuilder, Listener {
     }
 
 
+    /**
+     * Used to listen to the event
+     * @param e the click event
+     */
     @EventHandler
     public void onInventoryClick(InventoryClickEvent e) {
         if (inventory == null) return;

@@ -6,101 +6,104 @@ import org.bukkit.inventory.ItemStack;
 
 import javax.annotation.Nullable;
 
+/**
+ * Represents the contents of an inventory with methods to manipulate and manage its items.
+ */
 public interface InventoryContents {
 
     /**
-     * Gets the inner Array of items
-     * @return the array
+     * Gets the inner array of SmartItems representing the contents of the inventory.
+     * @return the array of SmartItems
      */
     SmartItem[] getItems();
 
     /**
-     * Gets the Items in from of ItemStacks
+     * Gets the items in the form of ItemStacks from the inventory.
      * @see InventoryContents#getItems()
-     * @return the array
+     * @return the array of ItemStacks
      */
     ItemStack[] getRawItems();
 
     /**
-     * Sets the inner array
-     * @param items the new Array
+     * Sets the inner array of SmartItems representing the contents of the inventory.
+     * @param items the new array of SmartItems
      */
     void setItems(SmartItem[] items);
 
     /**
-     * Gets a item
-     * @param index the index
-     * @return the Item
+     * Gets a SmartItem at the specified index in the inventory.
+     * @param index the index of the SmartItem
+     * @return the SmartItem at the given index, or null if not present
      */
     @Nullable SmartItem getItem(int index);
 
-
     /**
-     * Sets an item
-     * @param index the index
+     * Sets a SmartItem at the specified index in the inventory.
+     * @param index the index to set the SmartItem at
+     * @param item the SmartItem to set
      */
     void set(int index, SmartItem item);
 
     /**
-     * Sets an item
-     * @param index the index
+     * Sets a regular ItemStack at the specified index in the inventory.
+     * @param index the index to set the ItemStack at
+     * @param item the ItemStack to set
      */
     void set(int index, ItemStack item);
 
     /**
-     * Fills the whole inventory with the material
-     * @param material the material
+     * Fills the entire inventory with the specified material.
+     * @param material the material to fill the inventory with
      */
     void fill(Material material);
 
     /**
-     * Fills the whole inventory with the material and nam
-     * @param material the material
-     * @param name the name
+     * Fills the entire inventory with the specified material and name.
+     * @param material the material to fill the inventory with
+     * @param name the name to set for the filled items
      */
     void fill(Material material, String name);
 
-
+    /**
+     * Fills the entire inventory with the specified SmartItem.
+     * @param item the SmartItem to fill the inventory with
+     */
     void fill(SmartItem item);
 
-
     /**
-     * Fills the borders with the material
-     * @param material the material
+     * Fills the borders of the inventory with the specified material.
+     * @param material the material to fill the borders with
      */
     void fillBorders(Material material);
 
     /**
-     * Fills the borders with the material and name
-     * @param material the material
-     * @param name the name
+     * Fills the borders of the inventory with the specified material and name.
+     * @param material the material to fill the borders with
+     * @param name the name to set for the filled border items
      */
     void fillBorders(Material material, String name);
 
-
-
     /**
-     * Fills the borders with the item
-     * @param item the item
+     * Fills the borders of the inventory with the specified SmartItem.
+     * @param item the SmartItem to fill the borders with
      */
     void fillBorders(SmartItem item);
 
-
     /**
-     * Gets the PageSystem of the contents
-     * @return the System
+     * Gets the PageSystem associated with the inventory contents for managing page navigation.
+     * @return the PageSystem
      */
     PageSystem getPageSystem();
 
     /**
-     * Gets the InventoryBuilder of the contents
+     * Gets the InventoryBuilder associated with the inventory contents.
      * @return the InventoryBuilder
      */
     InventoryBuilder getBuilder();
 
     /**
-     * Used after for e.g. set
+     * Updates the contents of the inventory with the current SmartItem data.
+     * Call this method after making any changes to the SmartItems in the inventory to apply the changes.
      */
     void update();
-
 }
