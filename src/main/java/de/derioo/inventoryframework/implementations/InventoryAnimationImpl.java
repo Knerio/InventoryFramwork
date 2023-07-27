@@ -1,6 +1,6 @@
 package de.derioo.inventoryframework.implementations;
 
-import de.derioo.inventoryframework.interfaces.Animation;
+import de.derioo.inventoryframework.interfaces.InventoryAnimation;
 import de.derioo.inventoryframework.interfaces.InventoryBuilder;
 import de.derioo.inventoryframework.interfaces.InventoryContents;
 import de.derioo.inventoryframework.objects.SmartItem;
@@ -12,7 +12,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.*;
 
-public class AnimationImpl implements Animation {
+public class InventoryAnimationImpl implements InventoryAnimation {
 
     private final InventoryBuilder builder;
     private final Plugin plugin;
@@ -21,31 +21,31 @@ public class AnimationImpl implements Animation {
 
     private boolean hideAfterAnimation = false;
 
-    public AnimationImpl(InventoryBuilder builder, Plugin plugin) {
+    public InventoryAnimationImpl(InventoryBuilder builder, Plugin plugin) {
         this.builder = builder;
         this.plugin = plugin;
     }
 
     @Override
-    public Animation prepare(AnimationType t) {
+    public InventoryAnimation prepare(AnimationType t) {
         this.type = t;
         return this;
     }
 
     @Override
-    public Animation hideAfterAnimation() {
+    public InventoryAnimation hideAfterAnimation() {
         hideAfterAnimation = true;
         return this;
     }
 
     @Override
-    public Animation cycleInfinite() {
+    public InventoryAnimation cycleInfinite() {
         cycle = true;
         return this;
     }
 
     @Override
-    public Animation start(long delayBetweenItems, TimeUnit unit, AnimationItem... items) {
+    public InventoryAnimation start(long delayBetweenItems, TimeUnit unit, AnimationItem... items) {
         long delayBetweenItemsInTicks = getTicksFromTimeUnit(delayBetweenItems, unit);
 
         InventoryContents contents = builder.getContents();
@@ -78,8 +78,6 @@ public class AnimationImpl implements Animation {
                 for (int i = 0; i < displayedItems; i++) {
                     AnimationItem item = items[i];
                     int nextSlot = getNextSlotByType(item.getCurrentSlot(), type, displayedItems + 1);
-                    System.out.println(nextSlot);
-                    System.out.println(item.getStepCount());
                     if (item.getStepCount() > item.getAnimationLength()) continue;
                     item.setCurrentSlot(nextSlot);
                     item.setStepCount(item.getStepCount() + 1);
@@ -101,7 +99,6 @@ public class AnimationImpl implements Animation {
                             for (AnimationItem item : items) {
                                 newContents[item.getStartSlot()] = map.get(item.getStartSlot());
                                 newContents[item.getCurrentSlot()] = map.get(item.getCurrentSlot());
-                                System.out.println(item.getCurrentSlot());
                             }
                             contents.update();
                             if (cycle) {
@@ -137,7 +134,7 @@ public class AnimationImpl implements Animation {
     }
 
     @Override
-    public Animation start(long delayBetweenItems, TimeUnit unit, List<AnimationItem> items) {
+    public InventoryAnimation start(long delayBetweenItems, TimeUnit unit, List<AnimationItem> items) {
         AnimationItem[] array = new AnimationItem[items.size()];
 
         for (int i = 0; i < items.size(); i++) {

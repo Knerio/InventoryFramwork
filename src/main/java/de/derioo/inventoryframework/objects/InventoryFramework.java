@@ -2,9 +2,11 @@ package de.derioo.inventoryframework.objects;
 
 import de.derioo.inventoryframework.exeptions.FrameworkNotConfiguredException;
 import de.derioo.inventoryframework.implementations.InventoryBuilderImpl;
-import de.derioo.inventoryframework.interfaces.Animation;
-import de.derioo.inventoryframework.implementations.AnimationImpl;
+import de.derioo.inventoryframework.implementations.TitleAnimationImpl;
+import de.derioo.inventoryframework.interfaces.InventoryAnimation;
+import de.derioo.inventoryframework.implementations.InventoryAnimationImpl;
 import de.derioo.inventoryframework.interfaces.InventoryBuilder;
+import de.derioo.inventoryframework.interfaces.TitleAnimation;
 import lombok.Getter;
 import org.bukkit.Bukkit;
 import org.bukkit.event.Listener;
@@ -39,8 +41,22 @@ public class InventoryFramework {
         return new InventoryBuilderImpl();
     }
 
-    public static Animation animation(InventoryBuilder builder){
-        return new AnimationImpl(builder, plugin);
+    /**
+     * Used to create a inventory animation
+     * @param builder the builder of the animation
+     * @return the Animation to use
+     */
+    public static InventoryAnimation invAnimation(InventoryBuilder builder){
+        return new InventoryAnimationImpl(builder, plugin);
+    }
+
+    /**
+     * Used to create a title animation
+     * @param builder the builder of the animation
+     * @return the Animation to use
+     */
+    public static TitleAnimation titleAnimation(InventoryBuilder builder){
+        return new TitleAnimationImpl(builder, plugin);
     }
 
 }

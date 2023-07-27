@@ -3,31 +3,30 @@ package de.derioo.inventoryframework.interfaces;
 import de.derioo.inventoryframework.objects.SmartItem;
 import lombok.Getter;
 import lombok.Setter;
-import org.bukkit.Material;
 
 import java.util.List;
 
-public interface Animation {
+public interface InventoryAnimation {
 
     /**
-     * Prefers the animation
+     * Prepares the animation
      * @param type the animation type
      * @return the animation
      */
-    Animation prepare(AnimationType type);
+    InventoryAnimation prepare(AnimationType type);
 
 
     /**
      * Used when the item should hide after animation
      * @return the animation
      */
-    Animation hideAfterAnimation();
+    InventoryAnimation hideAfterAnimation();
 
     /**
      * Cycles the animation forever
      * @return the animation
      */
-    Animation cycleInfinite();
+    InventoryAnimation cycleInfinite();
 
 
     /**
@@ -37,7 +36,7 @@ public interface Animation {
      * @param items the items
      * @return the animation
      */
-    Animation start(long delayBetweenItems,TimeUnit unit ,AnimationItem... items);
+    InventoryAnimation start(long delayBetweenItems, TimeUnit unit , AnimationItem... items);
 
     /**
      * Starts the animation
@@ -46,7 +45,7 @@ public interface Animation {
      * @param items the items
      * @return the animation
      */
-    Animation start(long delayBetweenItems,TimeUnit unit, List<AnimationItem> items);
+    InventoryAnimation start(long delayBetweenItems, TimeUnit unit, List<AnimationItem> items);
 
 
     class AnimationItem {

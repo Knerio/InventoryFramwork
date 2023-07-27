@@ -1,6 +1,7 @@
 package de.derioo.inventoryframework.interfaces;
 
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.Inventory;
 import org.checkerframework.checker.index.qual.NonNegative;
 
 public interface InventoryBuilder {
@@ -68,5 +69,20 @@ public interface InventoryBuilder {
      */
     Player getPlayer();
 
+    /**
+     * Updates the inventory, used if you add items after init
+     */
     void update();
+
+    /**
+     * Gets the inventory, can change
+     * @return the Inventory
+     */
+    Inventory getInventory();
+
+    /**
+     * Sets the new inventory
+     * @param inventory the inv
+     */
+    void setInventory(Inventory inventory);
 }

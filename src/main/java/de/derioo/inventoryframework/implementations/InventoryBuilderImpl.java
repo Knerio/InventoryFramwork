@@ -105,6 +105,16 @@ public class InventoryBuilderImpl implements InventoryBuilder, Listener {
         }
     }
 
+    @Override
+    public Inventory getInventory() {
+        return inventory;
+    }
+
+    @Override
+    public void setInventory(Inventory inventory) {
+        this.inventory = inventory;
+    }
+
     public InventoryBuilder clone() {
         if (maxPage == -1) return InventoryFramework.builder()
                 .setup(title, size)
