@@ -30,7 +30,7 @@ To use the Framework you have to install it via a Repository and a Dependency
 To create GUI´s and more you first have to initialize the Framework in the onEnable method in your plugin
 
 ```java
-	new InventoryFramework(plugin);
+new InventoryFramework(plugin);
 ```
 
 ## Simple GUI
