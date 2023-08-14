@@ -23,7 +23,7 @@ To use the Framework you have to install it via a Repository and a Dependency
 </dependency>
 
 ```
-
+Current Version: 1.0-RELEASE
 
 ## Getting started
 
