@@ -9,7 +9,7 @@ To use the Framework you have to install it via a Repository and a Dependency
   ```
   <repository>
     <id>inventory</id>
-    <url>https://nexus.derioo.de/nexus/content/repositories/inventory</url>
+    <url>https://nexus.derioo.de/nexus/content/repositories/InventoryFramwork</url>
   </repository>
 ```
 #
