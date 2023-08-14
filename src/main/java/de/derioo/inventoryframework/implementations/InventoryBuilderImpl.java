@@ -27,10 +27,10 @@ public class InventoryBuilderImpl implements InventoryBuilder, Listener {
 
     @Override
     public InventoryBuilder setup(String t, int s) {
-        title = t;
-        size = s;
+        this.title = t;
+        this.size = s;
 
-        this.contents = new InventoryContentsImpl(size, this);
+        this.contents = new InventoryContentsImpl(this.size, this);
         return this;
     }
 
@@ -40,30 +40,30 @@ public class InventoryBuilderImpl implements InventoryBuilder, Listener {
         this.size = s;
         this.maxPage = page;
 
-        this.contents = new InventoryContentsImpl(size, this, maxPage);
+        this.contents = new InventoryContentsImpl(this.size, this, this.maxPage);
         return this;
     }
 
     @Override
     public InventoryBuilder provider(InventoryProvider p) {
-        provider = p;
+        this.provider = p;
         return this;
     }
 
     @Override
     public InventoryBuilder build() {
-        if (contents == null) throw new IllegalStateException("setup wasn't correctly");
+        if (this.contents == null) throw new IllegalStateException("setup wasn't correctly");
 
         InventoryFramework.initListener(this);
-        inventory = Bukkit.createInventory(null, size, title);
+        this.inventory = Bukkit.createInventory(null, this.size, this.title);
 
         return this;
     }
 
     @Override
     public InventoryContents getContents() {
-        if (contents == null)throw new IllegalStateException("setup wasn't correctly");
-        return contents;
+        if (this.contents == null)throw new IllegalStateException("setup wasn't correctly");
+        return this.contents;
     }
 
 
@@ -71,13 +71,13 @@ public class InventoryBuilderImpl implements InventoryBuilder, Listener {
     public void open(Player player) {
         this.player = player;
 
-        player.openInventory(inventory);
-        provider.init(player, contents);
+        player.openInventory(this.inventory);
+        this.provider.init(player, this.contents);
 
-        for (int i = 0; i < inventory.getSize(); i++) {
-            SmartItem item = contents.getItem(i);
+        for (int i = 0; i < this.inventory.getSize(); i++) {
+            SmartItem item = this.contents.getItem(i);
             if (item == null) continue;
-            inventory.setItem(i, item.getItem());
+            this.inventory.setItem(i, item.getItem());
         }
 
     }
@@ -85,32 +85,32 @@ public class InventoryBuilderImpl implements InventoryBuilder, Listener {
     @Override
     public void open(Player... players) {
         for (Player player : players) {
-            clone().open(player);
+            this.clone().open(player);
         }
     }
 
     @Override
     public InventoryProvider getProvider() {
-        return provider;
+        return this.provider;
     }
 
     @Override
     public Player getPlayer() {
-        return player;
+        return this.player;
     }
 
     @Override
     public void update() {
-        for (int i = 0; i < inventory.getSize(); i++) {
-            SmartItem item = contents.getItem(i);
+        for (int i = 0; i < this.inventory.getSize(); i++) {
+            SmartItem item = this.contents.getItem(i);
             if (item == null) continue;
-            inventory.setItem(i, item.getItem());
+            this.inventory.setItem(i, item.getItem());
         }
     }
 
     @Override
     public Inventory getInventory() {
-        return inventory;
+        return this.inventory;
     }
 
     @Override
@@ -119,9 +119,9 @@ public class InventoryBuilderImpl implements InventoryBuilder, Listener {
     }
 
     public InventoryBuilder clone() {
-        if (maxPage == -1) return InventoryFramework.builder()
-                .setup(title, size)
-                .provider(provider)
+        if (this.maxPage == -1) return InventoryFramework.builder()
+                .setup(this.title, this.size)
+                .provider(this.provider)
                 .build();
 
         return InventoryFramework.builder()
@@ -137,13 +137,13 @@ public class InventoryBuilderImpl implements InventoryBuilder, Listener {
      */
     @EventHandler
     public void onInventoryClick(InventoryClickEvent e) {
-        if (inventory == null) return;
-        if (!e.getInventory().equals(inventory)) return;
+        if (this.inventory == null) return;
+        if (!e.getInventory().equals(this.inventory)) return;
         e.setCancelled(true);
 
 
         int i = 0;
-        for (SmartItem item : contents.getItems()) {
+        for (SmartItem item : this.contents.getItems()) {
             if (item == null){
                 i++;
                 continue;

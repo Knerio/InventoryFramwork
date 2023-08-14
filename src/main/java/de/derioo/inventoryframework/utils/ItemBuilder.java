@@ -74,7 +74,7 @@ public class ItemBuilder {
      * @return The ItemBuilder instance.
      */
     public ItemBuilder setType(Material material) {
-        itemStack.setType(material);
+        this.itemStack.setType(material);
         return this;
     }
 
@@ -129,6 +129,7 @@ public class ItemBuilder {
     public ItemBuilder addEnchant(Enchantment enchantment, int level, boolean restriction) {
         ItemMeta meta = this.itemStack.getItemMeta();
         meta.addEnchant(enchantment, level, restriction);
+        this.itemStack.setItemMeta(meta);
         return this;
     }
 
@@ -141,6 +142,7 @@ public class ItemBuilder {
     public ItemBuilder removeEnchant(Enchantment enchantment) {
         ItemMeta meta = this.itemStack.getItemMeta();
         meta.removeEnchant(enchantment);
+        this.itemStack.setItemMeta(meta);
         return this;
     }
 
@@ -219,7 +221,7 @@ public class ItemBuilder {
      * @throws IllegalArgumentException if the material is not leather armor.
      */
     public ItemBuilder setLeatherColor(Color color) throws IllegalArgumentException {
-        if (!this.itemStack.getType().toString().toLowerCase().contains("leather_"))
+        if (!this.itemStack.getType().toString().toLowerCase().contains("leather_") || !(this.itemStack.getItemMeta() instanceof LeatherArmorMeta))
             throw new IllegalArgumentException("Head needs LeatherArmor as Material");
         LeatherArmorMeta meta = (LeatherArmorMeta) this.itemStack.getItemMeta();
         meta.setColor(color);
@@ -235,11 +237,9 @@ public class ItemBuilder {
      * @throws IllegalArgumentException if the material is not a player head.
      */
     public ItemBuilder setCustomSkull(String url) throws IllegalArgumentException {
-        if (!this.itemStack.getType().equals(Material.PLAYER_HEAD)) {
+        if (!this.itemStack.getType().equals(Material.PLAYER_HEAD) || !(this.itemStack.getItemMeta() instanceof SkullMeta headMeta)) {
             throw new IllegalArgumentException("Head needs PlayerHead as Material");
         }
-
-        SkullMeta headMeta = (SkullMeta) this.itemStack.getItemMeta();
 
         GameProfile profile = new GameProfile(UUID.randomUUID(), null);
         byte[] encodedData = Base64.encodeBase64(String.format("{textures:{SKIN:{url:\"%s\"}}}", new Object[]{url}).getBytes());
@@ -252,7 +252,7 @@ public class ItemBuilder {
         } catch (Exception e1) {
             e1.printStackTrace();
         }
-        this.itemStack.setItemMeta((ItemMeta) headMeta);
+        this.itemStack.setItemMeta(headMeta);
         return this;
     }
 
@@ -264,11 +264,10 @@ public class ItemBuilder {
      * @throws IllegalArgumentException if the material is not a player head.
      */
     public ItemBuilder setCustomSkullWithValue(String data) throws IllegalArgumentException {
-        if (!this.itemStack.getType().equals(Material.PLAYER_HEAD)) {
+        if (!this.itemStack.getType().equals(Material.PLAYER_HEAD) || !(this.itemStack.getItemMeta() instanceof SkullMeta headMeta)) {
             throw new IllegalArgumentException("Head needs PlayerHead as Material");
         }
 
-        SkullMeta headMeta = (SkullMeta) this.itemStack.getItemMeta();
 
         GameProfile profile = new GameProfile(UUID.randomUUID(), null);
         profile.getProperties().put("textures", new Property("textures", data));
@@ -280,7 +279,7 @@ public class ItemBuilder {
         } catch (Exception e1) {
             e1.printStackTrace();
         }
-        this.itemStack.setItemMeta((ItemMeta) headMeta);
+        this.itemStack.setItemMeta(headMeta);
         return this;
     }
 
@@ -292,11 +291,10 @@ public class ItemBuilder {
      * @throws IllegalArgumentException if the material is not a player head.
      */
     public ItemBuilder setSkull(Player player) throws IllegalArgumentException {
-        if (!this.itemStack.getType().equals(Material.PLAYER_HEAD)) {
+        if (!this.itemStack.getType().equals(Material.PLAYER_HEAD) || !(this.itemStack.getItemMeta() instanceof SkullMeta headMeta)) {
             throw new IllegalArgumentException("Head needs PlayerHead as Material");
         }
 
-        SkullMeta headMeta = (SkullMeta) this.itemStack.getItemMeta();
         headMeta.setOwningPlayer(player);
         this.itemStack.setItemMeta((ItemMeta) headMeta);
         return this;
@@ -311,11 +309,10 @@ public class ItemBuilder {
      * @see ItemBuilder#setSkull(Player)
      */
     public ItemBuilder setSkull(String player) throws IllegalArgumentException {
-        if (!this.itemStack.getType().equals(Material.PLAYER_HEAD)) {
+        if (!this.itemStack.getType().equals(Material.PLAYER_HEAD) || !(this.itemStack.getItemMeta() instanceof SkullMeta headMeta)) {
             throw new IllegalArgumentException("Head needs PlayerHead as Material");
         }
 
-        SkullMeta headMeta = (SkullMeta) this.itemStack.getItemMeta();
         headMeta.setOwner(player);
         this.itemStack.setItemMeta((ItemMeta) headMeta);
         return this;

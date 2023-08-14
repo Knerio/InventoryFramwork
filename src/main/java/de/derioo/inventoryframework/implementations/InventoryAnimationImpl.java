@@ -43,21 +43,21 @@ public class InventoryAnimationImpl implements InventoryAnimation {
 
     @Override
     public InventoryAnimation hideAfterAnimation() {
-        hideAfterAnimation = true;
+        this.hideAfterAnimation = true;
         return this;
     }
 
     @Override
     public InventoryAnimation cycleInfinite() {
-        cycle = true;
+        this.cycle = true;
         return this;
     }
 
     @Override
     public InventoryAnimation start(long delayBetweenItems, TimeUnit unit, AnimationItem... items) {
-        long delayBetweenItemsInTicks = getTicksFromTimeUnit(delayBetweenItems, unit);
+        long delayBetweenItemsInTicks = this.getTicksFromTimeUnit(delayBetweenItems, unit);
 
-        InventoryContents contents = builder.getContents();
+        InventoryContents contents = this.builder.getContents();
 
         final Map<Integer, SmartItem> map = new HashMap<>();
 
@@ -144,7 +144,7 @@ public class InventoryAnimationImpl implements InventoryAnimation {
         for (int i = 0; i < items.size(); i++) {
             array[i] = items.get(i);
         }
-        start(delayBetweenItems, unit, array);
+        this.start(delayBetweenItems, unit, array);
         return this;
     }
 

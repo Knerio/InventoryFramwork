@@ -30,9 +30,9 @@ public class InventoryContentsImpl implements InventoryContents {
      * @param maxPages the max pages
      */
     public InventoryContentsImpl(int size, InventoryBuilder builder, int maxPages) {
-        contents = new SmartItem[size];
+        this.contents = new SmartItem[size];
         this.builder = builder;
-        pageSystem = new PageSystemImpl(maxPages, this);
+        this.pageSystem = new PageSystemImpl(maxPages, this);
         this.size = size;
     }
 
@@ -42,7 +42,7 @@ public class InventoryContentsImpl implements InventoryContents {
      * @param builder the builder
      */
     public InventoryContentsImpl(int size, InventoryBuilder builder) {
-        contents = new SmartItem[size];
+        this.contents = new SmartItem[size];
         this.builder = builder;
         this.size = size;
     }
@@ -50,36 +50,36 @@ public class InventoryContentsImpl implements InventoryContents {
 
     @Override
     public SmartItem[] getItems() {
-        return contents;
+        return this.contents;
     }
 
     @Override
     public ItemStack[] getRawItems() {
         ItemStack[] array = new ItemStack[size];
-        for (int i = 0; i < contents.length; i++) {
-            if (contents[i] == null){
+        for (int i = 0; i < this.contents.length; i++) {
+            if (this.contents[i] == null){
                 array[i] = new ItemBuilder(Material.AIR).toItemStack();
                 continue;
             }
-            array[i] = contents[i].getItem();
+            array[i] = this.contents[i].getItem();
         }
         return array;
     }
 
     @Override
     public void setItems(SmartItem[] items) {
-        contents = items;
+        this.contents = items;
     }
 
     @Nullable
     @Override
     public SmartItem getItem(int index) {
-        return contents[index];
+        return this.contents[index];
     }
 
     @Override
     public void set(int index, SmartItem item) {
-        contents[index] = item;
+        this.contents[index] = item;
     }
 
     @Override
@@ -90,22 +90,22 @@ public class InventoryContentsImpl implements InventoryContents {
 
     @Override
     public void fill(Material material) {
-        fill(material, " ");
+        this.fill(material, " ");
     }
 
     @Override
     public void fill(Material material, String name) {
-        fill(SmartItem.get(new ItemBuilder(material).setName(name).toItemStack()));
+        this.fill(SmartItem.get(new ItemBuilder(material).setName(name).toItemStack()));
     }
 
     @Override
     public void fillBorders(Material material) {
-        fillBorders(material, " ");
+        this.fillBorders(material, " ");
     }
 
     @Override
     public void fillBorders(Material material, String name) {
-        fillBorders(SmartItem.get(new ItemBuilder(material).setName(name).toItemStack()));
+        this.fillBorders(SmartItem.get(new ItemBuilder(material).setName(name).toItemStack()));
     }
 
     @Override
@@ -113,7 +113,7 @@ public class InventoryContentsImpl implements InventoryContents {
         for (int i = 0; i < 10; i++) {
             this.set(i, item);
         }
-        int size = getItems().length;
+        int size = this.getItems().length;
         if (size > 9){
             for (int i = size-9; i < size; i++) {
                 this.set(i, item);
@@ -130,26 +130,26 @@ public class InventoryContentsImpl implements InventoryContents {
 
     @Override
     public void fill(SmartItem item) {
-        for (int i = 0; i < contents.length; i++) {
-            contents[i] = item.clone();
+        for (int i = 0; i < this.contents.length; i++) {
+            this.contents[i] = item.clone();
         }
     }
 
     @Override
     public PageSystem getPageSystem() {
-        if (pageSystem == null) throw new IllegalStateException("PageSystem is null because this.setup want correctly");
-        return pageSystem;
+        if (this.pageSystem == null) throw new IllegalStateException("PageSystem is null because this.setup want correctly");
+        return this.pageSystem;
     }
 
     @Override
     public InventoryBuilder getBuilder() {
-        return builder;
+        return this.builder;
     }
 
     @Override
     public void update() {
-        if (pageSystem == null) pageSystem = new PageSystemImpl(1, builder.getContents());
-        getBuilder().update();
+        if (this.pageSystem == null) this.pageSystem = new PageSystemImpl(1, this.builder.getContents());
+        this.getBuilder().update();
     }
 
 

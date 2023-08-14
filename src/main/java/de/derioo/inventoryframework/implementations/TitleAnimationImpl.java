@@ -49,8 +49,7 @@ public class TitleAnimationImpl implements TitleAnimation {
         for (String input : inputs) {
             list.add(input);
         }
-        long ticksBetweenChanges = getTicksFromTimeUnit(delayBetweenTextChanges, unit);
-        InventoryContents contents = builder.getContents();
+        long ticksBetweenChanges = this.getTicksFromTimeUnit(delayBetweenTextChanges, unit);
 
 
         new BukkitRunnable() {
@@ -98,7 +97,7 @@ public class TitleAnimationImpl implements TitleAnimation {
     private Inventory changeTitle(Inventory inventory, String newTitle){
         int size = inventory.getSize();
 
-        Inventory newInventory = Bukkit.createInventory((InventoryHolder) inventory.getHolder(), size, newTitle);
+        Inventory newInventory = Bukkit.createInventory(inventory.getHolder(), size, newTitle);
 
         newInventory.setContents(inventory.getContents());
 
@@ -107,7 +106,7 @@ public class TitleAnimationImpl implements TitleAnimation {
             viewer.openInventory(newInventory);
         }
 
-        // Das neue Inventar zurückgeben
+
         return newInventory;
     }
 
