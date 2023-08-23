@@ -1,6 +1,23 @@
 
 # Welcome to the InventoryFramework by Derio
 
+
+# Inhaltsverzeichnis
+
+## Installation
+- [Repository](#repository)
+- [Dependency](#dependency)
+
+## Getting started
+- [Framework-Initialisierung](#framework-initialisierung)
+
+## Simple GUI
+- [Grundlegende GUI](#grundlegende-gui)
+
+## Animationen
+- [Item-Animationen](#item-animationen)
+
+
 ## Installation
 	
 To use the Framework you have to install it via a Repository and a Dependency
