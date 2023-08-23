@@ -8,21 +8,22 @@
 - [Repository](#repository)
 - [Dependency](#dependency)
 
-## Getting started
-- [Framework-Initialisierung](#framework-initialisierung)
+#
 
-## Simple GUI
-- [Grundlegende GUI](#grundlegende-gui)
+ [Getting Started](#getting-started)
 
-## Animationen
-- [Item-Animationen](#item-animationen)
+ [Simole GUI](#simple-gui)
 
+## Animations
+- [Item-Animations](#item-animations)
+
+#
 
 ## Installation
 	
 To use the Framework you have to install it via a Repository and a Dependency
 
-**Repository**
+# Repository
   ```
   <repository>
     <id>inventory</id>
@@ -30,7 +31,7 @@ To use the Framework you have to install it via a Repository and a Dependency
   </repository>
 ```
 #
-**Dependency**
+# Dependency
 
 ```
 <dependency>
