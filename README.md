@@ -8,14 +8,11 @@
 - [Repository](#repository)
 - [Dependency](#dependency)
 
-#
+[Getting Started](#getting-started)
 
- [Getting Started](#getting-started)
+[Simple GUI](#simple-gui)
 
- [Simole GUI](#simple-gui)
-
-## Animations
-- [Item-Animations](#item-animations)
+[Item-Animations](#item-animations)
 
 #
 
