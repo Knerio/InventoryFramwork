@@ -1,8 +1,8 @@
 
-# Welcome to the InventoryFramework by Derio
+# InventoryFramework by Derio
 
 
-# Inhaltsverzeichnis
+# Contents
 
 
 
