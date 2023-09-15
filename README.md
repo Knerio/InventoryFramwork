@@ -1,11 +1,28 @@
 
-# Welcome to the InventoryFramework by Derio
+# InventoryFramework by Derio
+
+
+# Contents
+
+
+
+[Installation](#Installation) 
+- [Repository](#repository)
+- [Dependency](#dependency)
+
+[Getting Started](#getting-started)
+
+[Simple GUI](#simple-gui)
+
+[Item-Animations](#item-animations)
+
+#
 
 ## Installation
 	
 To use the Framework you have to install it via a Repository and a Dependency
 
-**Repository**
+# Repository
   ```
   <repository>
     <id>inventory</id>
@@ -13,13 +30,13 @@ To use the Framework you have to install it via a Repository and a Dependency
   </repository>
 ```
 #
-**Dependency**
+# Dependency
 
 ```
 <dependency>
   <groupId>de.derioo</groupId>
   <artifactId>InventoryFramwork</artifactId>
-  <version>1.0-RELEASE</version>
+  <version>1.1-RELEASE</version>
 </dependency>
 
 ```
