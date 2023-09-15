@@ -5,10 +5,14 @@ import de.derioo.inventoryframework.interfaces.InventoryContents;
 import de.derioo.inventoryframework.interfaces.PageSystem;
 import de.derioo.inventoryframework.objects.SmartItem;
 import de.derioo.inventoryframework.utils.ItemBuilder;
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
+import org.bukkit.entity.HumanEntity;
+import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 
 /**
@@ -150,6 +154,26 @@ public class InventoryContentsImpl implements InventoryContents {
     public void update() {
         if (this.pageSystem == null) this.pageSystem = new PageSystemImpl(1, this.builder.getContents());
         this.getBuilder().update();
+    }
+
+    @Override
+    public Inventory changeTitle(String newTitle) {
+
+        int size = this.builder.getInventory().getSize();
+
+        Inventory newInventory = Bukkit.createInventory(this.builder.getInventory().getHolder(), size, newTitle);
+
+        newInventory.setContents(this.builder.getInventory().getContents());
+
+
+        for (HumanEntity viewer : new ArrayList<>(this.builder.getInventory().getViewers())) {
+            viewer.openInventory(newInventory);
+        }
+
+
+        builder.setInventory(newInventory);
+
+        return newInventory;
     }
 
 

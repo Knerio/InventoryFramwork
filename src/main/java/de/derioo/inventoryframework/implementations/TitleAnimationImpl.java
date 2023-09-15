@@ -45,10 +45,7 @@ public class TitleAnimationImpl implements TitleAnimation {
 
     @Override
     public TitleAnimation start(long delayBetweenTextChanges, InventoryAnimation.TimeUnit unit, String... inputs) {
-        List<String> list = new ArrayList<>();
-        for (String input : inputs) {
-            list.add(input);
-        }
+        List<String> list = new ArrayList<>(Arrays.asList(inputs));
         long ticksBetweenChanges = this.getTicksFromTimeUnit(delayBetweenTextChanges, unit);
 
 
@@ -64,27 +61,24 @@ public class TitleAnimationImpl implements TitleAnimation {
                             this.cancel();
                             return;
                         }
-                        inventory = changeTitle(inventory, list.get(currentCycle));
-                        builder.setInventory(inventory);
+                        inventory = builder.getContents().changeTitle(list.get(currentCycle));
                     }
                     case CYCLE_INFINITE -> {
                         if (currentCycle == list.size()){
                             currentCycle = 1;
-                            inventory = changeTitle(inventory, inputs[0]);
+                            inventory = builder.getContents().changeTitle(inputs[0]);
                             return;
                         }
-                        inventory = changeTitle(inventory, inputs[currentCycle]);
-                        builder.setInventory(inventory);
+                        inventory = builder.getContents().changeTitle(inputs[currentCycle]);
                     }
                     case CYCLE_INFINITE_BACK_AND_FRONT -> {
                         if (currentCycle == list.size()){
                             currentCycle = 1;
                             Collections.reverse(list);
-                            inventory = changeTitle(inventory, list.get(0));
+                            inventory = builder.getContents().changeTitle(list.get(0));
                             return;
                         }
-                        inventory = changeTitle(inventory, list.get(currentCycle));
-                        builder.setInventory(inventory);
+                        inventory = builder.getContents().changeTitle(list.get(currentCycle));
                     }
                 }
                 currentCycle++;
@@ -94,21 +88,6 @@ public class TitleAnimationImpl implements TitleAnimation {
         return this;
     }
 
-    private Inventory changeTitle(Inventory inventory, String newTitle){
-        int size = inventory.getSize();
-
-        Inventory newInventory = Bukkit.createInventory(inventory.getHolder(), size, newTitle);
-
-        newInventory.setContents(inventory.getContents());
-
-
-        for (HumanEntity viewer : new ArrayList<>(inventory.getViewers())) {
-            viewer.openInventory(newInventory);
-        }
-
-
-        return newInventory;
-    }
 
 
     private long getTicksFromTimeUnit(long time, InventoryAnimation.TimeUnit unit) {

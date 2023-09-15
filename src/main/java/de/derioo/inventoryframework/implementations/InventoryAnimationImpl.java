@@ -140,10 +140,8 @@ public class InventoryAnimationImpl implements InventoryAnimation {
 
     @Override
     public InventoryAnimation start(long delayBetweenItems, TimeUnit unit, List<AnimationItem> items) {
-        AnimationItem[] array = new AnimationItem[items.size()];
-        for (int i = 0; i < items.size(); i++) {
-            array[i] = items.get(i);
-        }
+        AnimationItem[] array = items.toArray(new AnimationItem[]{});
+
         this.start(delayBetweenItems, unit, array);
         return this;
     }

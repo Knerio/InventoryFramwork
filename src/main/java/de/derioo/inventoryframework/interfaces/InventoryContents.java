@@ -2,6 +2,7 @@ package de.derioo.inventoryframework.interfaces;
 
 import de.derioo.inventoryframework.objects.SmartItem;
 import org.bukkit.Material;
+import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
 import javax.annotation.Nullable;
@@ -106,4 +107,6 @@ public interface InventoryContents {
      * Call this method after making any changes to the SmartItems in the inventory to apply the changes.
      */
     void update();
+
+    Inventory changeTitle(String newTitle);
 }
