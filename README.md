@@ -36,7 +36,7 @@ To use the Framework you have to install it via a Repository and a Dependency
 <dependency>
   <groupId>de.derioo</groupId>
   <artifactId>InventoryFramwork</artifactId>
-  <version>1.1-RELEASE</version>
+  <version>1.3-RELEASE</version>
 </dependency>
 
 ```
