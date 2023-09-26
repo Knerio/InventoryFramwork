@@ -101,6 +101,8 @@ public class InventoryBuilderImpl implements InventoryBuilder, Listener {
 
     @Override
     public void update() {
+        this.contents.setItems(new SmartItem[28]);
+        this.provider.init(player, this.contents);
         for (int i = 0; i < this.inventory.getSize(); i++) {
             SmartItem item = this.contents.getItem(i);
             if (item == null) continue;
