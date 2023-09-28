@@ -108,5 +108,10 @@ public interface InventoryContents {
      */
     void update();
 
+    /**
+     * Changes the title
+     * @param newTitle the title
+     * @return the inv
+     */
     Inventory changeTitle(String newTitle);
 }

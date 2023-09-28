@@ -5,7 +5,9 @@ import de.derioo.inventoryframework.interfaces.InventoryContents;
 import de.derioo.inventoryframework.interfaces.InventoryProvider;
 import de.derioo.inventoryframework.objects.InventoryFramework;
 import de.derioo.inventoryframework.objects.SmartItem;
+import de.derioo.inventoryframework.utils.ItemBuilder;
 import org.bukkit.Bukkit;
+import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -101,14 +103,23 @@ public class InventoryBuilderImpl implements InventoryBuilder, Listener {
 
     @Override
     public void update() {
-        this.contents.setItems(new SmartItem[28]);
-        this.provider.init(player, this.contents);
         for (int i = 0; i < this.inventory.getSize(); i++) {
             SmartItem item = this.contents.getItem(i);
-            if (item == null) continue;
+            if (item == null) {
+                this.inventory.setItem(i, new ItemBuilder(Material.AIR).toItemStack());
+                continue;
+            }
             this.inventory.setItem(i, item.getItem());
         }
     }
+
+    @Override
+    public void reload() {
+        this.contents.setItems(new SmartItem[28]);
+        this.provider.init(player, this.contents);
+        this.update();
+    }
+
 
     @Override
     public Inventory getInventory() {

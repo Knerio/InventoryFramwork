@@ -78,6 +78,11 @@ public interface InventoryBuilder {
     void update();
 
     /**
+     * reloads the inventory
+     */
+    void reload();
+
+    /**
      * Gets the inventory, can change
      * @return the Inventory
      */
