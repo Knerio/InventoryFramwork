@@ -26,6 +26,7 @@ public class InventoryBuilderImpl implements InventoryBuilder, Listener {
     private Inventory inventory;
     private Player player;
     private InventoryContents contents;
+    private boolean hasBeenInitialized = false;
 
     @Override
     public InventoryBuilder setup(String t, int s) {
@@ -56,9 +57,12 @@ public class InventoryBuilderImpl implements InventoryBuilder, Listener {
     public InventoryBuilder build() {
         if (this.contents == null) throw new IllegalStateException("setup wasn't correctly");
 
-        InventoryFramework.initListener(this);
+        this.contents.setItems(new SmartItem[this.size]);
+
+        if (!this.hasBeenInitialized) InventoryFramework.initListener(this);
         this.inventory = Bukkit.createInventory(null, this.size, this.title);
 
+        this.hasBeenInitialized = true;
         return this;
     }
 
@@ -115,7 +119,7 @@ public class InventoryBuilderImpl implements InventoryBuilder, Listener {
 
     @Override
     public void reload() {
-        this.contents.setItems(new SmartItem[28]);
+        this.contents.setItems(new SmartItem[this.size]);
         this.provider.init(player, this.contents);
         this.update();
     }
