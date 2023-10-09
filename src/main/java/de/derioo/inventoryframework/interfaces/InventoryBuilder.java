@@ -36,6 +36,18 @@ public interface InventoryBuilder {
     InventoryBuilder provider(InventoryProvider provider);
 
     /**
+     * Used to disable cancels of all events
+     * @return the builder
+     */
+    InventoryBuilder disableCancelEvents();
+
+    /**
+     * Used to disable doubleclicks of all events
+     * @return the builder
+     */
+    InventoryBuilder disableDoubleClicks();
+
+    /**
      * Builds the inventory, used before open
      * @return the builder
      */

@@ -11,6 +11,7 @@ import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.inventory.ClickType;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.Inventory;
 
@@ -27,6 +28,8 @@ public class InventoryBuilderImpl implements InventoryBuilder, Listener {
     private Player player;
     private InventoryContents contents;
     private boolean hasBeenInitialized = false;
+    private boolean disableCancel = false;
+    private boolean disableDoubleClicks;
 
     @Override
     public InventoryBuilder setup(String t, int s) {
@@ -54,6 +57,18 @@ public class InventoryBuilderImpl implements InventoryBuilder, Listener {
     }
 
     @Override
+    public InventoryBuilder disableCancelEvents() {
+        this.disableCancel = true;
+        return this;
+    }
+
+    @Override
+    public InventoryBuilder disableDoubleClicks() {
+        this.disableDoubleClicks = true;
+        return this;
+    }
+
+    @Override
     public InventoryBuilder build() {
         if (this.contents == null) throw new IllegalStateException("setup wasn't correctly");
 
@@ -68,7 +83,7 @@ public class InventoryBuilderImpl implements InventoryBuilder, Listener {
 
     @Override
     public InventoryContents getContents() {
-        if (this.contents == null)throw new IllegalStateException("setup wasn't correctly");
+        if (this.contents == null) throw new IllegalStateException("setup wasn't correctly");
         return this.contents;
     }
 
@@ -119,9 +134,7 @@ public class InventoryBuilderImpl implements InventoryBuilder, Listener {
 
     @Override
     public void reload() {
-        this.contents.setItems(new SmartItem[this.size]);
-        this.provider.init(player, this.contents);
-        this.update();
+        this.build().open(this.player);
     }
 
 
@@ -151,18 +164,19 @@ public class InventoryBuilderImpl implements InventoryBuilder, Listener {
 
     /**
      * Used to listen to the event
+     *
      * @param e the click event
      */
     @EventHandler
     public void onInventoryClick(InventoryClickEvent e) {
         if (this.inventory == null) return;
         if (!e.getInventory().equals(this.inventory)) return;
-        e.setCancelled(true);
-
+        if (!this.disableCancel) e.setCancelled(true);
+        if (this.disableDoubleClicks && e.getClick().equals(ClickType.DOUBLE_CLICK)) e.setCancelled(true);
 
         int i = 0;
         for (SmartItem item : this.contents.getItems()) {
-            if (item == null){
+            if (item == null) {
                 i++;
                 continue;
             }
@@ -173,7 +187,7 @@ public class InventoryBuilderImpl implements InventoryBuilder, Listener {
             i++;
         }
 
-        update();
+        if (!this.disableCancel) this.update();
 
     }
 }

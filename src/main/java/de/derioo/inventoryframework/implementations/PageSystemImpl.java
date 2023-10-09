@@ -66,5 +66,6 @@ public class PageSystemImpl implements PageSystem {
      */
     public void onPageChange(){
         this.contents.update();
+        this.contents.getBuilder().reload();
     }
 }
