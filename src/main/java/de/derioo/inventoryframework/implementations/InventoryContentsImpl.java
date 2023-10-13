@@ -29,8 +29,9 @@ public class InventoryContentsImpl implements InventoryContents {
 
     /**
      * Initialises the implementation
-     * @param size the size of the contents
-     * @param builder the builder
+     *
+     * @param size     the size of the contents
+     * @param builder  the builder
      * @param maxPages the max pages
      */
     public InventoryContentsImpl(int size, InventoryBuilder builder, int maxPages) {
@@ -42,7 +43,8 @@ public class InventoryContentsImpl implements InventoryContents {
 
     /**
      * Initialises the implementation
-     * @param size the size of the contents
+     *
+     * @param size    the size of the contents
      * @param builder the builder
      */
     public InventoryContentsImpl(int size, InventoryBuilder builder) {
@@ -61,7 +63,7 @@ public class InventoryContentsImpl implements InventoryContents {
     public ItemStack[] getRawItems() {
         ItemStack[] array = new ItemStack[size];
         for (int i = 0; i < this.contents.length; i++) {
-            if (this.contents[i] == null){
+            if (this.contents[i] == null) {
                 array[i] = new ItemBuilder(Material.AIR).toItemStack();
                 continue;
             }
@@ -118,17 +120,17 @@ public class InventoryContentsImpl implements InventoryContents {
             this.set(i, item);
         }
         int size = this.getItems().length;
-        if (size > 9){
-            for (int i = size-9; i < size; i++) {
+        if (size > 9) {
+            for (int i = size - 9; i < size; i++) {
                 this.set(i, item);
             }
         }
         int rows = (size + 1) / 9;
 
-        for(int i = 9; i < rows * 9 - 1; i += 9) {
-            if (i == 0)continue;
+        for (int i = 9; i < rows * 9 - 1; i += 9) {
+            if (i == 0) continue;
             this.set(i, item);
-            this.set(i+8, item);
+            this.set(i + 8, item);
         }
     }
 
@@ -141,7 +143,8 @@ public class InventoryContentsImpl implements InventoryContents {
 
     @Override
     public PageSystem getPageSystem() {
-        if (this.pageSystem == null) throw new IllegalStateException("PageSystem is null because this.setup want correctly");
+        if (this.pageSystem == null)
+            throw new IllegalStateException("PageSystem is null because this.setup want correctly");
         return this.pageSystem;
     }
 
