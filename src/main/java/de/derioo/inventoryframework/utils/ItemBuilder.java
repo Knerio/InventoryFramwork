@@ -269,7 +269,7 @@ public class ItemBuilder {
         }
 
 
-        GameProfile profile = new GameProfile(UUID.randomUUID(), null);
+        GameProfile profile = new GameProfile(UUID.randomUUID(), "");
         profile.getProperties().put("textures", new Property("textures", data));
         Field profileField = null;
         try {
