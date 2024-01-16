@@ -24,10 +24,11 @@ To use the Framework you have to install it via a Repository and a Dependency
 
 # Repository
   ```
-  <repository>
-    <id>inventory</id>
-    <url>https://nexus.derioo.de/nexus/content/repositories/InventoryFramwork</url>
-  </repository>
+    <repository>
+      <id>derio</id>
+      <name>Derios Repository</name>
+      <url>https://nexus.derioo.de/releases</url>
+    </repository>
 ```
 #
 # Dependency
@@ -35,8 +36,8 @@ To use the Framework you have to install it via a Repository and a Dependency
 ```
 <dependency>
   <groupId>de.derioo</groupId>
-  <artifactId>InventoryFramwork</artifactId>
-  <version>6.1.5</version>
+  <artifactId>inventoryframework</artifactId>
+  <version>5.0.0</version>
 </dependency>
 
 ```
