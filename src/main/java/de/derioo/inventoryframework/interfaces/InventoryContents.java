@@ -1,6 +1,7 @@
 package de.derioo.inventoryframework.interfaces;
 
 import de.derioo.inventoryframework.objects.SmartItem;
+import net.kyori.adventure.text.Component;
 import org.bukkit.Material;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
@@ -62,8 +63,18 @@ public interface InventoryContents {
      * Fills the entire inventory with the specified material and name.
      * @param material the material to fill the inventory with
      * @param name the name to set for the filled items
+     * @deprecated Use the method with components instead of string
      */
+    @Deprecated
     void fill(Material material, String name);
+
+
+    /**
+     * Fills the entire inventory with the specified material and name.
+     * @param material the material to fill the inventory with
+     * @param name the name to set for the filled items
+     */
+    void fill(Material material, Component name);
 
     /**
      * Fills the entire inventory with the specified SmartItem.
@@ -81,8 +92,17 @@ public interface InventoryContents {
      * Fills the borders of the inventory with the specified material and name.
      * @param material the material to fill the borders with
      * @param name the name to set for the filled border items
+     * @deprecated Use the method with components instead of string
      */
+    @Deprecated
     void fillBorders(Material material, String name);
+
+    /**
+     * Fills the borders of the inventory with the specified material and name.
+     * @param material the material to fill the borders with
+     * @param name the name to set for the filled border items
+     */
+    void fillBorders(Material material, Component name);
 
     /**
      * Fills the borders of the inventory with the specified SmartItem.
@@ -112,6 +132,16 @@ public interface InventoryContents {
      * Changes the title
      * @param newTitle the title
      * @return the inv
+     * @deprecated use components instead of strings
      */
+    @Deprecated
     Inventory changeTitle(String newTitle);
+
+    /**
+     * Changes the title
+     * @param newTitle the title
+     * @return the inv
+     */
+    @Deprecated
+    Inventory changeTitle(Component newTitle);
 }

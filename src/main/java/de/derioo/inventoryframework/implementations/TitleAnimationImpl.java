@@ -4,6 +4,7 @@ import de.derioo.inventoryframework.interfaces.InventoryAnimation;
 import de.derioo.inventoryframework.interfaces.InventoryBuilder;
 import de.derioo.inventoryframework.interfaces.InventoryContents;
 import de.derioo.inventoryframework.interfaces.TitleAnimation;
+import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.HumanEntity;
 import org.bukkit.entity.Player;
@@ -17,6 +18,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Implementation class of the title animation interface
@@ -29,8 +31,9 @@ public class TitleAnimationImpl implements TitleAnimation {
 
     /**
      * Used to get an instance of the class
+     *
      * @param builder the builder
-     * @param plugin the main plugin
+     * @param plugin  the main plugin
      */
     public TitleAnimationImpl(InventoryBuilder builder, Plugin plugin) {
         this.builder = builder;
@@ -45,26 +48,36 @@ public class TitleAnimationImpl implements TitleAnimation {
 
     @Override
     public TitleAnimation start(long delayBetweenTextChanges, InventoryAnimation.TimeUnit unit, String... inputs) {
-        List<String> list = new ArrayList<>(Arrays.asList(inputs));
+        Component[] components = new Component[inputs.length];
+        for (int i = 0; i < inputs.length; i++) {
+            components[i] = Component.text(inputs[i]);
+        }
+        return this.start(delayBetweenTextChanges, unit, components);
+    }
+
+    @Override
+    public TitleAnimation start(long delayBetweenTextChanges, InventoryAnimation.TimeUnit unit, Component... inputs) {
+        List<Component> list = new ArrayList<>(Arrays.asList(inputs));
         long ticksBetweenChanges = this.getTicksFromTimeUnit(delayBetweenTextChanges, unit);
 
 
         new BukkitRunnable() {
 
             Inventory inventory = builder.getInventory();
-            int currentCycle = 0 ;
+            int currentCycle = 0;
+
             @Override
             public void run() {
-                switch (type){
+                switch (type) {
                     case CYCLE_ONCE -> {
-                        if (currentCycle == list.size()){
+                        if (currentCycle == list.size()) {
                             this.cancel();
                             return;
                         }
                         inventory = builder.getContents().changeTitle(list.get(currentCycle));
                     }
                     case CYCLE_INFINITE -> {
-                        if (currentCycle == list.size()){
+                        if (currentCycle == list.size()) {
                             currentCycle = 1;
                             inventory = builder.getContents().changeTitle(inputs[0]);
                             return;
@@ -72,7 +85,7 @@ public class TitleAnimationImpl implements TitleAnimation {
                         inventory = builder.getContents().changeTitle(inputs[currentCycle]);
                     }
                     case CYCLE_INFINITE_BACK_AND_FRONT -> {
-                        if (currentCycle == list.size()){
+                        if (currentCycle == list.size()) {
                             currentCycle = 1;
                             Collections.reverse(list);
                             inventory = builder.getContents().changeTitle(list.get(0));
@@ -87,7 +100,6 @@ public class TitleAnimationImpl implements TitleAnimation {
 
         return this;
     }
-
 
 
     private long getTicksFromTimeUnit(long time, InventoryAnimation.TimeUnit unit) {

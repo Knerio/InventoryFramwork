@@ -1,5 +1,6 @@
 package de.derioo.inventoryframework.interfaces;
 
+import net.kyori.adventure.text.Component;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.checkerframework.checker.index.qual.NonNegative;
@@ -15,8 +16,34 @@ public interface InventoryBuilder {
      * @param title the title
      * @param size the size of the inventory
      * @return the builder
+     * @deprecated use InventoryBuild#setup(Component title, int size)
      */
+    @Deprecated
     InventoryBuilder setup(String title,@NonNegative int size);
+
+    /**
+     * Has to be executed
+     * Used to set up the Inventory
+     * @param title the title
+     * @param size the size of the inventory
+     * @return the builder
+     */
+    InventoryBuilder setup(Component title, @NonNegative int size);
+
+
+
+
+    /**
+     * Has to be executed
+     * Used to set up the Inventory
+     * @param title the title
+     * @param size the size of the inventory
+     * @param maxPages the fixed max pages
+     * @return the builder
+     * @deprecated use InventoryBuild#setup(Component title, int size, int maxPages)
+     */
+    @Deprecated
+    InventoryBuilder setup(String title,@NonNegative int size,@NonNegative int maxPages);
 
     /**
      * Has to be executed
@@ -26,7 +53,7 @@ public interface InventoryBuilder {
      * @param maxPages the fixed max pages
      * @return the builder
      */
-    InventoryBuilder setup(String title,@NonNegative int size,@NonNegative int maxPages);
+    InventoryBuilder setup(Component title, @NonNegative int size, @NonNegative int maxPages);
 
     /**
      * Used to provide the contents of the inventory

@@ -6,6 +6,7 @@ import de.derioo.inventoryframework.interfaces.InventoryProvider;
 import de.derioo.inventoryframework.objects.InventoryFramework;
 import de.derioo.inventoryframework.objects.SmartItem;
 import de.derioo.inventoryframework.utils.ItemBuilder;
+import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -13,14 +14,16 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.ClickType;
 import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.inventory.Inventory;
+import org.checkerframework.checker.index.qual.NonNegative;
 
 /**
  * An implementation of the InventoryBuilder interface for building inventories and handling inventory interactions.
  */
 public class InventoryBuilderImpl implements InventoryBuilder, Listener {
 
-    private String title = "NOT_CONFIGURED";
+    private Component title = Component.text("NOT_CONFIGURED");
     private int size = 9;
     private int maxPage = -1;
     private InventoryProvider provider;
@@ -30,10 +33,11 @@ public class InventoryBuilderImpl implements InventoryBuilder, Listener {
     private boolean hasBeenInitialized = false;
     private boolean disableCancel = false;
     private boolean disableDoubleClicks;
+    private boolean opened = false;
 
     @Override
     public InventoryBuilder setup(String t, int s) {
-        this.title = t;
+        this.title = Component.text(t);
         this.size = s;
 
         this.contents = new InventoryContentsImpl(this.size, this);
@@ -41,10 +45,29 @@ public class InventoryBuilderImpl implements InventoryBuilder, Listener {
     }
 
     @Override
+    public InventoryBuilder setup(Component title, @NonNegative int size) {
+        this.title = title;
+        this.size = size;
+
+        this.contents = new InventoryContentsImpl(this.size, this);
+        return this;
+    }
+
+    @Override
     public InventoryBuilder setup(String t, int s, int page) {
-        this.title = t;
+        this.title = Component.text(t);
         this.size = s;
         this.maxPage = page;
+
+        this.contents = new InventoryContentsImpl(this.size, this, this.maxPage);
+        return this;
+    }
+
+    @Override
+    public InventoryBuilder setup(Component title, @NonNegative int size, @NonNegative int maxPages) {
+        this.title = title;
+        this.size = size;
+        this.maxPage = maxPages;
 
         this.contents = new InventoryContentsImpl(this.size, this, this.maxPage);
         return this;
@@ -100,6 +123,8 @@ public class InventoryBuilderImpl implements InventoryBuilder, Listener {
             if (item == null) continue;
             this.inventory.setItem(i, item.getItem());
         }
+
+        this.opened = true;
 
     }
 
@@ -174,6 +199,8 @@ public class InventoryBuilderImpl implements InventoryBuilder, Listener {
         if (!this.disableCancel) e.setCancelled(true);
         if (this.disableDoubleClicks && e.getClick().equals(ClickType.DOUBLE_CLICK)) e.setCancelled(true);
 
+        this.provider.onClick(this.player, this.contents, e);
+
         int i = 0;
         for (SmartItem item : this.contents.getItems()) {
             if (item == null) {
@@ -188,6 +215,23 @@ public class InventoryBuilderImpl implements InventoryBuilder, Listener {
         }
 
         if (!this.disableCancel) this.update();
+
+    }
+
+    /**
+     * Used to listen to the event
+     *
+     * @param e the close event
+     */
+    @EventHandler
+    public void onClose(InventoryCloseEvent e) {
+        if (!this.opened) return;
+        if (this.inventory == null) return;
+        if (!e.getView().getTopInventory().equals(this.inventory)) return;
+
+        if (!(e.getPlayer() instanceof Player)) return;
+
+        this.provider.onClose((Player) e.getPlayer(), this.contents, e);
 
     }
 }

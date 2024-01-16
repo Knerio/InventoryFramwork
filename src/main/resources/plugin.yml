@@ -1,4 +1,4 @@
-name: InventoryFramework
+name: inventoryframework
 version: '${version}'
 main: de.derioo.inventoryframework.Main
 api-version: '1.20'

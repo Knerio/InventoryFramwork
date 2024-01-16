@@ -5,6 +5,7 @@ import de.derioo.inventoryframework.interfaces.InventoryContents;
 import de.derioo.inventoryframework.interfaces.PageSystem;
 import de.derioo.inventoryframework.objects.SmartItem;
 import de.derioo.inventoryframework.utils.ItemBuilder;
+import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.HumanEntity;
@@ -96,12 +97,17 @@ public class InventoryContentsImpl implements InventoryContents {
 
     @Override
     public void fill(Material material) {
-        this.fill(material, " ");
+        this.fill(material, Component.empty());
     }
 
     @Override
     public void fill(Material material, String name) {
         this.fill(SmartItem.get(new ItemBuilder(material).setName(name).toItemStack()));
+    }
+
+    @Override
+    public void fill(Material material, Component name) {
+        this.fill(SmartItem.get(new ItemBuilder(material).name(name).toItemStack()));
     }
 
     @Override
@@ -112,6 +118,11 @@ public class InventoryContentsImpl implements InventoryContents {
     @Override
     public void fillBorders(Material material, String name) {
         this.fillBorders(SmartItem.get(new ItemBuilder(material).setName(name).toItemStack()));
+    }
+
+    @Override
+    public void fillBorders(Material material, Component name) {
+        this.fillBorders(SmartItem.get(new ItemBuilder(material).name(name).toItemStack()));
     }
 
     @Override
@@ -161,6 +172,11 @@ public class InventoryContentsImpl implements InventoryContents {
 
     @Override
     public Inventory changeTitle(String newTitle) {
+        return this.changeTitle(Component.text(newTitle));
+    }
+
+    @Override
+    public Inventory changeTitle(Component newTitle) {
 
         int size = this.builder.getInventory().getSize();
 

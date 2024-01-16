@@ -1,5 +1,7 @@
 package de.derioo.inventoryframework.interfaces;
 
+import net.kyori.adventure.text.Component;
+
 /**
  * Used to create title animations
  */
@@ -21,8 +23,19 @@ public interface TitleAnimation {
      * @param unit the unit of the delay
      * @param inputs the titles
      * @return the animation
+     * @deprecated use the component method
      */
+    @Deprecated
     TitleAnimation start(long delayBetweenTextChanges, InventoryAnimation.TimeUnit unit, String... inputs);
+
+    /**
+     * Starts the animation
+     * @param delayBetweenTextChanges sets the delay between every change
+     * @param unit the unit of the delay
+     * @param inputs the titles
+     * @return the animation
+     */
+    TitleAnimation start(long delayBetweenTextChanges, InventoryAnimation.TimeUnit unit, Component... inputs);
 
 
     /**

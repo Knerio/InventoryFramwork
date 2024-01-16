@@ -1,8 +1,11 @@
 package de.derioo.inventoryframework.utils;
 
+import com.destroystokyo.paper.profile.PlayerProfile;
 import com.mojang.authlib.GameProfile;
 import com.mojang.authlib.properties.Property;
+import net.kyori.adventure.text.Component;
 import org.apache.commons.codec.binary.Base64;
+import org.bukkit.Bukkit;
 import org.bukkit.Color;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
@@ -60,10 +63,22 @@ public class ItemBuilder {
      * @param name The name to set.
      * @return The ItemBuilder instance.
      */
+    @Deprecated
     public ItemBuilder setName(String name) {
         ItemMeta meta = this.itemStack.getItemMeta();
         meta.setDisplayName(name);
         this.itemStack.setItemMeta(meta);
+        return this;
+    }
+
+    /**
+     * Sets the display name of the item.
+     *
+     * @param name The name to set.
+     * @return The ItemBuilder instance.
+     */
+    public ItemBuilder name(Component name) {
+        this.itemStack.editMeta(meta -> meta.displayName(name));
         return this;
     }
 
@@ -152,6 +167,7 @@ public class ItemBuilder {
      * @param lore The lore lines to add.
      * @return The ItemBuilder instance.
      */
+    @Deprecated
     public ItemBuilder addLore(String... lore) {
         ItemMeta meta = this.itemStack.getItemMeta();
         List<String> oldLore = meta.getLore() == null ? new ArrayList<>() : meta.getLore();
@@ -162,11 +178,27 @@ public class ItemBuilder {
     }
 
     /**
+     * Adds lore lines to the item.
+     *
+     * @param lore The lore lines to add.
+     * @return The ItemBuilder instance.
+     */
+    public ItemBuilder addLore(Component... lore) {
+        ItemMeta meta = this.itemStack.getItemMeta();
+        List<Component> oldLore = meta.lore() == null ? new ArrayList<>() : meta.lore();
+        oldLore.addAll(Arrays.asList(lore));
+        meta.lore(oldLore);
+        this.itemStack.setItemMeta(meta);
+        return this;
+    }
+
+    /**
      * Sets the lore lines of the item.
      *
      * @param lore The lore lines to set.
      * @return The ItemBuilder instance.
      */
+    @Deprecated
     public ItemBuilder setLore(String... lore) {
         ItemMeta meta = this.itemStack.getItemMeta();
         meta.setLore(Arrays.asList(lore));
@@ -177,12 +209,39 @@ public class ItemBuilder {
     /**
      * Sets the lore lines of the item.
      *
+     * @param lore The lore lines to set.
+     * @return The ItemBuilder instance.
+     */
+    public ItemBuilder setLore(Component... lore) {
+        ItemMeta meta = this.itemStack.getItemMeta();
+        meta.lore(Arrays.asList(lore));
+        this.itemStack.setItemMeta(meta);
+        return this;
+    }
+
+    /**
+     * Sets the lore lines of the item.
+     *
      * @param lore The list of lore lines to set.
      * @return The ItemBuilder instance.
      */
+    @Deprecated
     public ItemBuilder setLore(List<String> lore) {
         ItemMeta meta = this.itemStack.getItemMeta();
         meta.setLore(lore);
+        this.itemStack.setItemMeta(meta);
+        return this;
+    }
+
+    /**
+     * Sets the lore lines of the item.
+     *
+     * @param lore The list of lore lines to set.
+     * @return The ItemBuilder instance.
+     */
+    public ItemBuilder lore(List<Component> lore) {
+        ItemMeta meta = this.itemStack.getItemMeta();
+        meta.lore(lore);
         this.itemStack.setItemMeta(meta);
         return this;
     }
@@ -221,9 +280,8 @@ public class ItemBuilder {
      * @throws IllegalArgumentException if the material is not leather armor.
      */
     public ItemBuilder setLeatherColor(Color color) throws IllegalArgumentException {
-        if (!this.itemStack.getType().toString().toLowerCase().contains("leather_") || !(this.itemStack.getItemMeta() instanceof LeatherArmorMeta))
+        if (!this.itemStack.getType().toString().toLowerCase().contains("leather_") || !(this.itemStack.getItemMeta() instanceof LeatherArmorMeta meta))
             throw new IllegalArgumentException("Head needs LeatherArmor as Material");
-        LeatherArmorMeta meta = (LeatherArmorMeta) this.itemStack.getItemMeta();
         meta.setColor(color);
         this.itemStack.setItemMeta(meta);
         return this;
@@ -306,15 +364,40 @@ public class ItemBuilder {
      * @param player The name of the player owning the skull.
      * @return The ItemBuilder instance.
      * @throws IllegalArgumentException if the material is not a player head.
-     * @see ItemBuilder#setSkull(Player)
+     * @deprecated Doesnt work use ItemBuilder#setSkull(uuid)
+     * @see ItemBuilder#setSkull(UUID)
      */
+    @Deprecated
     public ItemBuilder setSkull(String player) throws IllegalArgumentException {
         if (!this.itemStack.getType().equals(Material.PLAYER_HEAD) || !(this.itemStack.getItemMeta() instanceof SkullMeta headMeta)) {
             throw new IllegalArgumentException("Head needs PlayerHead as Material");
         }
 
-        headMeta.setOwner(player);
+        headMeta.setPlayerProfile(Bukkit.createProfile(UUID.randomUUID(), player));
         this.itemStack.setItemMeta((ItemMeta) headMeta);
+        return this;
+    }
+
+    /**
+     * Sets the skull owner to the specified player name for the player head item.
+     *
+     * @param player The name of the player owning the skull.
+     * @return The ItemBuilder instance.
+     * @throws IllegalArgumentException if the material is not a player head.
+     * @see ItemBuilder#setSkull(Player)
+     */
+    public ItemBuilder setSkull(UUID player) throws IllegalArgumentException {
+        if (!this.itemStack.getType().equals(Material.PLAYER_HEAD) || !(this.itemStack.getItemMeta() instanceof SkullMeta headMeta)) {
+            throw new IllegalArgumentException("Head needs PlayerHead as Material");
+        }
+
+        PlayerProfile profile = Bukkit.getOfflinePlayer(player).getPlayerProfile();
+        headMeta.setPlayerProfile(profile);
+        this.itemStack.setItemMeta(headMeta);
+        profile.update().thenAcceptAsync(playerProfile -> {
+            headMeta.setPlayerProfile(profile);
+            this.itemStack.setItemMeta(headMeta);
+        });
         return this;
     }
 
